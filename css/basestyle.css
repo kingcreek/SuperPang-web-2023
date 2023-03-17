@@ -1,0 +1,17 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    overflow: hidden;
+    background-color: rgb(35, 0, 133);
+}
+
+.maincharimg{
+    position: absolute;
+    margin: auto;
+    bottom: 0;
+    height: 120px;
+    width: 6vw;
+    left: 44vw;
+}
