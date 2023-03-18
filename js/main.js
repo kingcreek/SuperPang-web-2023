@@ -1,8 +1,9 @@
 
 import * as Player from "./player.js";
 import * as Shooting from "./shooting.js";
+import * as Bubbles from "./bubbles.js";
 
-var frameRate = 1/30; // Seconds
+var frameRate = 1/60; // Seconds
 var frameDelay = frameRate * 1000; // ms
 
 
@@ -16,6 +17,7 @@ setInterval(loop, frameDelay);
 function loop() {
     Player.move();
     Shooting.launchAttack();
+    Bubbles.moveBubble("bubble1");
 }
 
 
