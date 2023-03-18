@@ -3,57 +3,131 @@ const play_zone = document.getElementById("playzone");
 
 let positionX = 44;
 let width = 6;
-let heigth = 120;
+let heigth = 200;
+let idnum = 1;
+let movement = 0;
+let shooting = 0;
 
 
-//KEYLISTENER
+var map = []; // You could also use an array
 
-document.addEventListener('keydown', (event) => {
+start();
 
+onkeydown = onkeyup = function (e) {
 
-    let keyName = event.key;
-    console.log(keyName);
+    map[e.key] = e.type == 'keydown';
+    /* insert conditional here */
 
-    //CONTROLS
+    if (map["ArrowRight"]) {
 
-    if(keyName == "ArrowRight" && positionX + width < 100){
-
-        move(1);
-
-    }else if(keyName == "ArrowLeft" && positionX>0){
-
-        move(-1)   
-
-    }else if(keyName == "z"){
-
-        launchAttack(positionX);
+        movement = 1;
     }
-  }, false);
+
+    if (map["ArrowLeft"]) {
+        movement = -1;
+
+    }
+    if (map["z"]) {
+
+        shooting = 1;
+    }
+
+    if (!map["ArrowRight"] && !map["ArrowLeft"]) {
+
+        movement = 0;
+    }
+
+    if (!map["z"]) {
+        shooting = 0;
+    }
+}
 
 
-  function launchAttack(position){
+//ANIM FRAME
 
-    let attack_img = document.createElement('img');
+var requestId;
+
+function loop() {
+
+    requestId = undefined;
+
+    move();
+
+    if(shooting == 1){
+    launchAttack();
+    }
+    start()
+}
+
+
+function start() {
+    if (!requestId) {
+        requestId = window.requestAnimationFrame(loop);
+    }
+}
+
+function stop() {
+    if (requestId) {
+
+        window.cancelAnimationFrame(requestId);
+        requestId = undefined;
+    }
+}
+
+//SHOOTING KEYLISTENER
+
+function move() {
+
+
+    positionX = positionX < 0 ? 0 : positionX;
+    positionX = (positionX + width) > 100 ? (100 - width) : positionX;
+
+
+    positionX += movement;
+    main_char.style.left = positionX + "vw";
+}
+
+
+function launchAttack() {
+
+    const attack_img = document.createElement('img');
+
+    let bulletid = "bullet" + idnum;
+    attack_img.setAttribute('id', bulletid);
+
 
     attack_img.style.position = "absolute"
-    attack_img.style.width = "20px"
-    
+    attack_img.style.width = "30px"
+
     attack_img.margin = "auto"
     attack_img.src = "res/arrowup.png";
-    attack_img.style.left = position + "vw";
-    attack_img.style.backgroundColor = "#000"
+    attack_img.style.left = (positionX + 2) + "vw";
 
-    attack_img.style.bottom = "120px";
+    attack_img.style.bottom = heigth + "px";
 
     play_zone.appendChild(attack_img);
-  }
 
-  function move(direction){
+    moveAttack(bulletid);
 
-    console.log("direccion: " + direction);
-    console.log("posicion: " + positionX);
+    idnum++;
+}
 
-    positionX += direction;
+function moveAttack(bulletnum) {
 
-    main_char.style.left = positionX + "vw";
-  }
+    let bulletpos = document.getElementById(bulletnum).offsetTop;
+    let bulletmoving = document.getElementById(bulletnum);
+
+    if (bulletpos + 30 > 0) {
+
+        window.requestAnimationFrame(() => {
+
+            bulletpos = (bulletpos - 8);
+            bulletmoving.style.top = bulletpos + "px";
+
+            moveAttack(bulletnum);
+        })
+
+    } else {
+        bulletmoving.remove();
+    }
+}
