@@ -141,7 +141,7 @@ let bubblemaxHeight;
 let bubbleDiam = 220;
 let bubbleXPos;
 let bubbleYPos;
-let bubbleXMov = 1;
+let bubbleXMov = 2;
 let bubbleYMov = 3;
 
 moveBubble("bubble1")
@@ -158,12 +158,13 @@ function moveBubble(bubbleId) {
     window.requestAnimationFrame(() => {
 
 
-        if(bubbleYPos < 0 || bubbleYPos + bubbleDiam > window.innerHeight){
-            bubbleYMov = bubbleYMov*-1}
-            console.log(bubbleXPos);
-            
-        if(bubbleXPos < 0 || bubbleXPos + bubbleDiam > window.innerWidth){
-            bubbleXMov = bubbleXMov*-1}
+        if (bubbleYPos < 0 || bubbleYPos + bubbleDiam > window.innerHeight) {
+            bubbleYMov = bubbleYMov * -1
+        }
+
+        if (bubbleXPos < 0 || bubbleXPos + bubbleDiam > window.innerWidth) {
+            bubbleXMov = bubbleXMov * -1
+        }
 
         bubbleYPos += bubbleYMov;
         bubbleXPos += bubbleXMov;
