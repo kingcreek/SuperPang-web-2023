@@ -1,63 +1,56 @@
-let main_char = document.getElementById("mainchar");
-const play_zone = document.getElementById("playzone");
 
-let positionX = 44;
-let width = 9;
-let heigth = 180;
-let idnum = 1;
-let movement = 0;
-let shooting = 0;
-let cooldown = false;
+import * as Player from "./player.js";
+import * as Shooting from "./shooting.js";
+import * as Bubbles from "./bubbles.js";
+
+var frameRate = 1/60; // Seconds
+var frameDelay = frameRate * 1000; // ms
+
+
 
 var map = []; //CONTAINS KEY INPUTS IN USE
 
-start();
+setInterval(loop, frameDelay);
+//start();
 
+// LOOP PLAYER
+function loop() {
+    Player.move();
+    Shooting.launchAttack();
+    Bubbles.moveBubble("bubble1");
+}
+
+
+// MAIN KEYHOOK FUNCTION
 onkeydown = onkeyup = function (e) {
 
     map[e.key] = e.type == 'keydown';
 
     if (map["ArrowRight"]) {
 
-        movement = 0.8;
+        Player.setPlayerMovement(0.8);
     }
 
     if (map["ArrowLeft"]) {
-        movement = -0.8;
-
+        Player.setPlayerMovement(-0.8);
     }
-    if (map["z"] && !cooldown) {
+    if (map["z"]) {
 
-        shooting = 1;
+        Shooting.setShooting(1);
     }
 
     if (!map["ArrowRight"] && !map["ArrowLeft"]) {
-
-        movement = 0;
+        Player.setPlayerMovement(0);
     }
 
     if (!map["z"]) {
-        shooting = 0;
+        Shooting.setShooting(0);
     }
 }
 
 //ANIM FRAME
-
+/*
 var requestId;
-
-function loop() {
-
-    requestId = undefined;
-
-    move();
-
-    if (shooting == 1) {
-        launchAttack();
-    }
-    start()
-}
-
-
 function start() {
     if (!requestId) {
         requestId = window.requestAnimationFrame(loop);
