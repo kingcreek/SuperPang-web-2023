@@ -7,19 +7,6 @@ let positionX = 44;
 let width = 9;
 let heigth = 180;
 
-// LOOP PLAYER
-function loop() {
-
-    requestId = undefined;
-
-    move();
-
-    if (shooting == 1) {
-        launchAttack();
-    }
-    start()
-}
-
 function setPlayerMovement(value)
 {
 	movement = value;
@@ -34,4 +21,4 @@ function move() {
 }
 
 
-export { setPlayerMovement, move };
+export { setPlayerMovement, move, positionX, heigth };

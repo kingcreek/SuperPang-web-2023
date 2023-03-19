@@ -1,4 +1,5 @@
 const play_zone = document.getElementById("playzone");
+import * as Player from "./player.js";
 
 let shooting = 0;
 let idnum = 1;
@@ -24,9 +25,9 @@ function launchAttack() {
 
     attack_img.margin = "auto"
     attack_img.src = "res/arrowup.png";
-    attack_img.style.left = (positionX + 2) + "vw";
+    attack_img.style.left = (Player.positionX + 2) + "vw";
 
-    attack_img.style.bottom = heigth + "px";
+    attack_img.style.bottom = Player.heigth + "px";
 
     play_zone.appendChild(attack_img);
 

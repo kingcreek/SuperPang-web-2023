@@ -5,8 +5,8 @@ var height = window.innerHeight;
 var ball = {
     position: {x: width/2, y: 0},
     velocity: {x: 10, y: 0},
-    mass: 0.1, //kg
-    radius: 110, // 1px = 1cm
+    mass: 0.01, //kg
+    radius: 15, // 1px = 1cm
     restitution: -0.7
 };
 
@@ -50,24 +50,24 @@ function moveBubble(bubbleId)
     // Setear la posicion
     ball.position.x += ball.velocity.x*frameRate*100;
     ball.position.y += ball.velocity.y*frameRate*100;
-    
+    console.log(ball.velocity.y)
     // Manejo de colisiones
-    if (ball.position.y > height - ball.radius) {
-        ball.velocity.y *= ball.restitution;
-        ball.position.y = height - ball.radius;
-        ball.velocity.y = (ball.position.y - 500) /10;
+    if (ball.position.y > height - 220) {
+        //ball.velocity.y *= ball.restitution;
+        ball.position.y = height - 220;
+        ball.velocity.y = -50;
+        ball.velocity.x *= 2;
 
-        //aplicar nuevo impulso al tocar el suelo
-        ball.velocity.y = (ball.position.y - height) /10;
 
+        //(ball.position.y - 500) /10;
     }
-    if (ball.position.x > width - ball.radius) {
+    if (ball.position.x > width - 220) {
         ball.velocity.x *= ball.restitution;
-        ball.position.x = width - ball.radius;
+        ball.position.x = width - 220;
     }
-    if (ball.position.x < ball.radius) {
+    if (ball.position.x < 220) {
         ball.velocity.x *= ball.restitution;
-        ball.position.x = ball.radius;
+        ball.position.x = 220;
     }
 
     bubbleToMove.style.top = ball.position.y + "px";
