@@ -1,7 +1,7 @@
 
-import * as Player from "./player.js";
-import * as Shooting from "./shooting.js";
-import * as Bubbles from "./bubbles.js";
+import * as Player from "./player.js?v=4";
+import * as Shooting from "./shooting.js?v=4";
+import * as Bubbles from "./bubbles.js?v=4";
 
 var frameRate = 1/60; // Seconds
 var frameDelay = frameRate * 1000; // ms
@@ -13,11 +13,13 @@ var map = []; //CONTAINS KEY INPUTS IN USE
 setInterval(loop, frameDelay);
 //start();
 
+// ADD 1 BUBBLE
+Bubbles.addBubble(0, 0, 220, 1, 1);
 // LOOP PLAYER
 function loop() {
     Player.move();
     Shooting.launchAttack();
-    Bubbles.moveBubble("bubble1");
+    Bubbles.moveImage();
 }
 
 
