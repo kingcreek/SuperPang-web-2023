@@ -1,7 +1,19 @@
+import * as Player from "./player.js";
+
 const play_zone = document.getElementById("playzone");
 
 let shooting = 0;
 let idnum = 1;
+let heigth = 180;
+
+let maxBullets = 1;
+let bullets = []; // arreglo para guardar las balas
+
+
+function canShoot()
+{
+    return bullets.length < maxBullets;
+}
 
 function setShooting(value)
 {
@@ -10,13 +22,13 @@ function setShooting(value)
 
 function launchAttack() {
 
-	if (shooting != 1)
+	if (shooting != 1 || bullets.length >= maxBullets)
 		return;
 
     const attack_img = document.createElement('img');
 
-    let bulletid = "bullet" + idnum;
-    attack_img.setAttribute('id', bulletid);
+    //let bulletid = "bullet" + idnum;
+    //attack_img.setAttribute('id', bulletid);
 
 
     attack_img.style.position = "absolute"
@@ -24,36 +36,36 @@ function launchAttack() {
 
     attack_img.margin = "auto"
     attack_img.src = "res/arrowup.png";
-    attack_img.style.left = (positionX + 2) + "vw";
+    attack_img.style.left = (Player.positionX + 2) + "vw";
 
     attack_img.style.bottom = heigth + "px";
 
     play_zone.appendChild(attack_img);
 
-    moveAttack(bulletid);
+    bullets.push(attack_img);
+    moveAttack();
 
     idnum++;
 }
 
-function moveAttack(bulletnum) {
+function moveAttack() {
+    bullets.slice().reverse().forEach(function(bullet, index, object) {
+        let bulletpos = bullet.offsetTop;
 
-    let bulletpos = document.getElementById(bulletnum).offsetTop;
-    let bulletmoving = document.getElementById(bulletnum);
+        if (bulletpos + 30 > 0) {
 
-    if (bulletpos + 30 > 0) {
+            window.requestAnimationFrame(() => {
+                bulletpos = (bulletpos - 8);
+                bullet.style.top = bulletpos + "px";
+                moveAttack();
+            })
 
-        window.requestAnimationFrame(() => {
-
-            bulletpos = (bulletpos - 8);
-            bulletmoving.style.top = bulletpos + "px";
-
-            moveAttack(bulletnum);
-        })
-
-    } else {
-        bulletmoving.remove();
-    }
+        } else {
+            bullet.remove();
+            bullets.splice(object.length - 1 - index, 1);
+        }
+    });
 }
 
 
-export { setShooting, launchAttack };
+export { setShooting, launchAttack, shooting, canShoot, bullets };

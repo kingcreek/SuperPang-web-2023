@@ -17,9 +17,9 @@ body{
     position: absolute;
     margin: auto;
     bottom: 0;
-    height: 180px;
-    width: 9vw;
-    left: 44vw;
+    width: 321.6px;
+    height: 280.75px;
+    background: url("../res/spritesheet.png") 0 0;
 }
 
 .bubble1{
